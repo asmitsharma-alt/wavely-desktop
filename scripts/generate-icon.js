@@ -76,16 +76,15 @@ function makeImage(size) {
       const nx = x / (size - 1);
       const ny = y / (size - 1);
       const baseAlpha = roundedRectAlpha(x + 0.5, y + 0.5, size, radius);
-      const glow = Math.max(0, 1 - Math.hypot(nx - 0.68, ny - 0.28) / 0.55);
-      let r = 41 + 160 * nx + 45 * glow;
-      let g = 25 + 45 * ny + 30 * glow;
-      let b = 82 + 120 * (1 - nx) + 48 * glow;
+      let r = 247;
+      let g = 242;
+      let b = 251;
 
       const inner = roundedRectAlpha(x + 0.5, y + 0.5, size - 12, radius - 5);
       const shine = Math.max(0, 1 - Math.hypot(nx - 0.34, ny - 0.24) / 0.38) * inner;
-      r += 55 * shine;
-      g += 35 * shine;
-      b += 80 * shine;
+      r += 8 * shine;
+      g += 8 * shine;
+      b += 8 * shine;
 
       let dist = Infinity;
       for (let i = 0; i < pts.length - 1; i++) {
@@ -96,13 +95,13 @@ function makeImage(size) {
       const wave = 1 - smoothstep(stroke * 0.48, stroke * 0.62, dist);
       const halo = 1 - smoothstep(stroke * 1.0, stroke * 2.0, dist);
 
-      r = r * (1 - halo * 0.25) + 255 * halo * 0.25;
-      g = g * (1 - halo * 0.25) + 95 * halo * 0.25;
-      b = b * (1 - halo * 0.25) + 165 * halo * 0.25;
+      r = r * (1 - halo * 0.18) + 23 * halo * 0.18;
+      g = g * (1 - halo * 0.18) + 16 * halo * 0.18;
+      b = b * (1 - halo * 0.18) + 32 * halo * 0.18;
 
-      r = r * (1 - wave) + 255 * wave;
-      g = g * (1 - wave) + 255 * wave;
-      b = b * (1 - wave) + 255 * wave;
+      r = r * (1 - wave) + 23 * wave;
+      g = g * (1 - wave) + 16 * wave;
+      b = b * (1 - wave) + 32 * wave;
 
       const off = headerSize + ((size - 1 - y) * size + x) * 4;
       dib[off] = clamp(b);
