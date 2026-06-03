@@ -6,6 +6,10 @@
 
 Wavely is a Windows desktop music player with an Apple Music-inspired interface, transparent glass styling, synced lyrics, online JioSaavn search, local library playback, visualizers, liked songs, shuffle support, and a low-memory Tauri wrapper.
 
+## Preview
+
+https://wavely.asmit.tech
+
 ## Screenshots
 
 ### Home
