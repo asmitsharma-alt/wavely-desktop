@@ -37,19 +37,13 @@ function distToSegment(px, py, ax, ay, bx, by) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-function wavePoints(size) {
-  const pts = [];
-  const margin = size * 0.18;
-  const amp = size * 0.105;
-  const mid = size * 0.51;
-  const width = size - margin * 2;
-  for (let i = 0; i <= 180; i++) {
-    const t = i / 180;
-    const x = margin + width * t;
-    const y = mid + Math.sin(t * Math.PI * 4 - Math.PI * 0.15) * amp;
-    pts.push([x, y]);
-  }
-  return pts;
+function roundedSquareAlpha(x, y, left, top, size, radius) {
+  const cx = Math.max(left + radius, Math.min(left + size - radius, x));
+  const cy = Math.max(top + radius, Math.min(top + size - radius, y));
+  const dx = x - cx;
+  const dy = y - cy;
+  const d = Math.sqrt(dx * dx + dy * dy);
+  return 1 - smoothstep(radius - 1.2, radius + 1.2, d);
 }
 
 function makeImage(size) {
@@ -67,41 +61,43 @@ function makeImage(size) {
   dib.writeUInt32LE(0, 16);
   dib.writeUInt32LE(xorSize + andSize, 20);
 
-  const pts = wavePoints(size);
-  const stroke = Math.max(5, size * 0.075);
   const radius = size * 0.22;
+  const blocks = [
+    { x: 0.1875, y: 0.515625, c: [255, 77, 141] },
+    { x: 0.296875, y: 0.40625, c: [255, 152, 88] },
+    { x: 0.40625, y: 0.515625, c: [255, 209, 90] },
+    { x: 0.515625, y: 0.40625, c: [105, 231, 255] },
+    { x: 0.625, y: 0.515625, c: [167, 139, 250] },
+    { x: 0.734375, y: 0.40625, c: [255, 77, 141] },
+  ];
 
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       const nx = x / (size - 1);
       const ny = y / (size - 1);
       const baseAlpha = roundedRectAlpha(x + 0.5, y + 0.5, size, radius);
-      let r = 247;
-      let g = 242;
-      let b = 251;
+      let r = 16;
+      let g = 16;
+      let b = 24;
 
       const inner = roundedRectAlpha(x + 0.5, y + 0.5, size - 12, radius - 5);
       const shine = Math.max(0, 1 - Math.hypot(nx - 0.34, ny - 0.24) / 0.38) * inner;
       r += 8 * shine;
       g += 8 * shine;
-      b += 8 * shine;
+      b += 10 * shine;
 
-      let dist = Infinity;
-      for (let i = 0; i < pts.length - 1; i++) {
-        const a = pts[i];
-        const c = pts[i + 1];
-        dist = Math.min(dist, distToSegment(x + 0.5, y + 0.5, a[0], a[1], c[0], c[1]));
+      const blockSize = size * 0.09375;
+      const blockRadius = size * 0.0234375;
+      for (const block of blocks) {
+        const bx = size * block.x;
+        const by = size * block.y;
+        const alpha = roundedSquareAlpha(x + 0.5, y + 0.5, bx, by, blockSize, blockRadius);
+        if (alpha > 0) {
+          r = r * (1 - alpha) + block.c[0] * alpha;
+          g = g * (1 - alpha) + block.c[1] * alpha;
+          b = b * (1 - alpha) + block.c[2] * alpha;
+        }
       }
-      const wave = 1 - smoothstep(stroke * 0.48, stroke * 0.62, dist);
-      const halo = 1 - smoothstep(stroke * 1.0, stroke * 2.0, dist);
-
-      r = r * (1 - halo * 0.18) + 23 * halo * 0.18;
-      g = g * (1 - halo * 0.18) + 16 * halo * 0.18;
-      b = b * (1 - halo * 0.18) + 32 * halo * 0.18;
-
-      r = r * (1 - wave) + 23 * wave;
-      g = g * (1 - wave) + 16 * wave;
-      b = b * (1 - wave) + 32 * wave;
 
       const off = headerSize + ((size - 1 - y) * size + x) * 4;
       dib[off] = clamp(b);
