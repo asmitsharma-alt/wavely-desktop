@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Wavely",
+  "version": "1.0.0",
+  "identifier": "com.wavely.desktop",
+  "build": {
+    "frontendDist": "../tauri-dist",
+    "beforeDevCommand": "node scripts/prepare-tauri.js",
+    "beforeBuildCommand": "node scripts/prepare-tauri.js"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Wavely",
+        "url": "index.html",
+        "width": 1320,
+        "height": 860,
+        "minWidth": 980,
+        "minHeight": 640,
+        "decorations": false,
+        "transparent": true,
+        "shadow": false,
+        "resizable": true,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "nsis",
+    "icon": [
+      "../build/icon.ico"
+    ]
+  }
+}

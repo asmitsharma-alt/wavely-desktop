@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Generated frontend bundle for Tauri
+tauri-dist/
+
+# Tauri/Rust build output
+src-tauri/target/
+src-tauri/gen/
+
+# Electron build output
+dist/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local environment
+.env
+.env.*
