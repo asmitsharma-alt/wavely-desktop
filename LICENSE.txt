@@ -1,0 +1,14 @@
+Wavely Desktop App Notice
+
+Copyright (c) 2026 Asmit Sharma. All rights reserved.
+
+Wavely is provided as-is, without warranty of any kind. Use of this app is at
+your own risk. The app may connect to public music metadata and streaming APIs,
+and those services remain subject to their own terms, availability, and limits.
+
+Third-party credit:
+JioSaavn API integration credit goes to Sumit Kolhe's open-source project:
+https://github.com/sumitkolhe/jiosaavn-api.git
+
+Development assistance credit:
+OpenAI Codex and Claude Opus.

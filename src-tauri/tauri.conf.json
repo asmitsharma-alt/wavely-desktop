@@ -33,8 +33,29 @@
   "bundle": {
     "active": true,
     "targets": "nsis",
+    "publisher": "Asmit Sharma",
+    "homepage": "https://wavely.asmit.tech",
+    "copyright": "Copyright (c) 2026 Asmit Sharma",
+    "licenseFile": "../LICENSE.txt",
+    "shortDescription": "A glass-style desktop music player.",
+    "longDescription": "Wavely is a glass-style desktop music player with lyrics, playlists, artist search, thumbnails, visualizer, and a custom transparent Windows experience.",
     "icon": [
       "../build/icon.ico"
-    ]
+    ],
+    "windows": {
+      "nsis": {
+        "headerImage": "../build/installer-header.bmp",
+        "sidebarImage": "../build/installer-sidebar.bmp",
+        "installerIcon": "../build/icon.ico",
+        "uninstallerIcon": "../build/icon.ico",
+        "installMode": "both",
+        "languages": [
+          "English"
+        ],
+        "displayLanguageSelector": false,
+        "compression": "lzma",
+        "startMenuFolder": "Wavely"
+      }
+    }
   }
 }
